@@ -111,9 +111,21 @@
             font-size: 1.2em;
             color: var(--text-light);
             opacity: 0; /* Starts invisible */
-            transition: opacity 2s ease-in;
+            transition: opacity 1.5s ease-in; /* Fades in */
             font-weight: 400;
             text-shadow: 0 0 5px var(--text-light);
+            margin-bottom: 20px; /* Add space below */
+        }
+
+        #next-mission-prompt {
+            font-size: 1.1em;
+            letter-spacing: 1px;
+            padding: 10px 15px;
+            border: 1px solid var(--border-yellow);
+            border-radius: 5px;
+            display: inline-block; /* Makes the border wrap the text */
+            opacity: 0; /* Starts invisible */
+            transition: opacity 1.5s ease-in 1s; /* Fades in 1 second AFTER the first message starts */
         }
         
         @keyframes pulse-glow {
@@ -154,6 +166,7 @@
     </div>
     
     <div id="glowup-message"></div>
+    <div id="next-mission-prompt"></div>
 
 </div>
 
@@ -164,8 +177,9 @@
         const startValue = 0;
         const endValue = 1000;
         const duration = 2500; // duration of the count-up in milliseconds
-        const message = "Glow Up! Your storytelling balanced the first anomaly. Well done!";
-        
+        const message1 = "Glow Up! Your storytelling balanced the first anomaly. Well done!";
+        const message2 = "New Challenge Available: [Enigmadrome 02: The Dissonance]";
+
         // This is the "next level" goal. 1000/2000 = 50% full bar.
         const maxPowerForProgressBar = 2000; 
 
@@ -175,6 +189,7 @@
         const audleyProgressEl = document.getElementById('audley-progress');
         const llewProgressEl = document.getElementById('llew-progress');
         const messageEl = document.getElementById('glowup-message');
+        const nextMissionEl = document.getElementById('next-mission-prompt');
 
         // --- Animate the number counting up ---
         function animateValue(element, start, end, duration) {
@@ -203,11 +218,15 @@
             llewProgressEl.style.width = progressPercentage + '%';
         }, 100);
 
-        // Display the message after the count-up is finished
+        // Display the messages after the count-up is finished
         setTimeout(() => {
-            messageEl.innerText = message;
+            messageEl.innerText = message1;
             messageEl.style.opacity = 1;
-        }, duration + 500); // 500ms after numbers finish
+
+            // This second message will appear after the first, controlled by a CSS delay
+            nextMissionEl.innerText = message2;
+            nextMissionEl.style.opacity = 1;
+        }, duration + 500);
     });
 </script>
 
