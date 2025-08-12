@@ -1,112 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Enigmadrome Stats</title>
-<style>
-    /* Basic Styling for the container */
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enigmadrome Stats</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
-    body {
-        background-color: #0d0d1a;
-        font-family: 'Orbitron', sans-serif;
-        color: #e0e0e0;
-        margin: 0;
-        padding: 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
+        :root {
+            --background-color: #F8F9FA;
+            --text-color: #343A40;
+            --accent-yellow: #FFD700;
+            --border-color: #DEE2E6;
+            --card-background: #FFFFFF;
+        }
 
-    /* Main stats container */
-    .stats-container {
-        background-color: #1a1a2e;
-        border: 2px solid #00ffff;
-        box-shadow: 0 0 15px #00ffff, inset 0 0 10px #00ffff33;
-        padding: 20px;
-        width: 90%;
-        max-width: 800px;
-        border-radius: 10px;
-        text-align: center;
-    }
+        body {
+            background-color: var(--background-color);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
 
-    /* Title styling with glow animation */
-    h2 {
-        color: #ff00ff;
-        text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
-        animation: pulse-glow 2s infinite ease-in-out;
-        margin-bottom: 30px;
-    }
+        .stats-container {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            padding: 30px 40px;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
 
-    /* Player card layout */
-    .players-wrapper {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
+        h2 {
+            font-weight: 300;
+            font-size: 1.5em;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
 
-    .player-card {
-        background-color: #0d0d1a88;
-        padding: 15px;
-        border-radius: 8px;
-        border: 1px solid #4a4a7f;
-        flex-basis: 45%;
-        min-width: 250px;
-    }
+        .players-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
 
-    h3 {
-        color: #00ffff;
-        text-shadow: 0 0 5px #00ffff;
-        margin-top: 0;
-    }
+        .player-card {
+            padding: 20px;
+            flex-basis: 45%;
+            min-width: 280px;
+        }
 
-    /* Power display styling */
-    .power-display {
-        font-size: 2em;
-        font-weight: 700;
-        color: #ffffff;
-        text-shadow: 0 0 8px #ffffff;
-        margin-bottom: 10px;
-    }
+        h3 {
+            font-weight: 700;
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--accent-yellow);
+            text-shadow: 0 0 12px hsla(51, 100%, 50%, 0.7);
+        }
 
-    /* Progress bar styling */
-    .progress-bar {
-        background-color: #0d0d1a;
-        border: 1px solid #4a4a7f;
-        border-radius: 5px;
-        padding: 3px;
-        height: 25px;
-    }
+        .power-display {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+        
+        .power-unit-label {
+            font-weight: 300;
+            font-size: 0.7em;
+            color: #6c757d; /* A muted gray for the label */
+        }
 
-    .progress-bar-fill {
-        background: linear-gradient(90deg, #ff00ff, #00ffff);
-        height: 100%;
-        width: 0%; /* Starts at 0, JS will animate this */
-        border-radius: 3px;
-        box-shadow: 0 0 10px #00ffff;
-        transition: width 2.5s ease-out;
-    }
-    
-    /* Congratulatory message styling */
-    #glowup-message {
-        margin-top: 30px;
-        font-size: 1.2em;
-        color: #f0f0f0;
-        opacity: 0; /* Starts invisible */
-        transition: opacity 1.5s ease-in;
-        font-weight: 400;
-        text-shadow: 0 0 5px #ffffff88;
-    }
+        .progress-bar {
+            background-color: #E9ECEF;
+            border-radius: 50px;
+            height: 12px;
+            overflow: hidden; /* Ensures the fill stays within the rounded corners */
+        }
 
-    /* Keyframe animation for the title glow */
-    @keyframes pulse-glow {
-        0% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff; }
-        50% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
-        100% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff; }
-    }
+        .progress-bar-fill {
+            background-color: var(--accent-yellow);
+            height: 100%;
+            width: 0%; /* Starts at 0, JS will animate this */
+            border-radius: 50px;
+            box-shadow: 0 0 10px var(--accent-yellow);
+            transition: width 2.5s cubic-bezier(0.25, 1, 0.5, 1); /* A smooth, calming ease-out */
+        }
+        
+        #glowup-message {
+            margin-top: 40px;
+            font-size: 1.1em;
+            color: #495057;
+            opacity: 0; /* Starts invisible */
+            transition: opacity 2s ease-in;
+            font-weight: 400;
+        }
 
-</style>
+    </style>
 </head>
 <body>
 
@@ -117,7 +118,8 @@
         <div class="player-card">
             <h3>AUDLEY</h3>
             <div class="power-display">
-                <span id="audley-power">0</span> Glimmering
+                <span id="audley-power">0</span>
+                <span class="power-unit-label">Glimmering</span>
             </div>
             <div class="progress-bar">
                 <div id="audley-progress" class="progress-bar-fill"></div>
@@ -127,7 +129,8 @@
         <div class="player-card">
             <h3>LLEW</h3>
             <div class="power-display">
-                <span id="llew-power">0</span> Glimmering
+                <span id="llew-power">0</span>
+                <span class="power-unit-label">Glimmering</span>
             </div>
             <div class="progress-bar">
                 <div id="llew-progress" class="progress-bar-fill"></div>
@@ -141,7 +144,7 @@
 
 <script>
     // This function runs when the page loads
-    window.onload = function() {
+    window.addEventListener('DOMContentLoaded', (event) => {
         // --- CONFIGURATION ---
         const startValue = 0;
         const endValue = 1000;
@@ -167,6 +170,8 @@
                 element.innerText = Math.floor(progress * (end - start) + start);
                 if (progress < 1) {
                     window.requestAnimationFrame(step);
+                } else {
+                    element.innerText = end; // Ensure it ends on the exact number
                 }
             };
             window.requestAnimationFrame(step);
@@ -177,7 +182,6 @@
         animateValue(llewPowerEl, startValue, endValue, duration);
 
         // Animate the progress bars
-        // Use a slight delay to let the element render before transitioning
         setTimeout(() => {
             const progressPercentage = (endValue / maxPowerForProgressBar) * 100;
             audleyProgressEl.style.width = progressPercentage + '%';
@@ -189,7 +193,7 @@
             messageEl.innerText = message;
             messageEl.style.opacity = 1;
         }, duration + 500); // 500ms after numbers finish
-    };
+    });
 </script>
 
 </body>
