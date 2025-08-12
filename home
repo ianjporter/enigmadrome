@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Enigmadrome Stats</title>
+<style>
+    /* Basic Styling for the container */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+    body {
+        background-color: #0d0d1a;
+        font-family: 'Orbitron', sans-serif;
+        color: #e0e0e0;
+        margin: 0;
+        padding: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    /* Main stats container */
+    .stats-container {
+        background-color: #1a1a2e;
+        border: 2px solid #00ffff;
+        box-shadow: 0 0 15px #00ffff, inset 0 0 10px #00ffff33;
+        padding: 20px;
+        width: 90%;
+        max-width: 800px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    /* Title styling with glow animation */
+    h2 {
+        color: #ff00ff;
+        text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+        animation: pulse-glow 2s infinite ease-in-out;
+        margin-bottom: 30px;
+    }
+
+    /* Player card layout */
+    .players-wrapper {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .player-card {
+        background-color: #0d0d1a88;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #4a4a7f;
+        flex-basis: 45%;
+        min-width: 250px;
+    }
+
+    h3 {
+        color: #00ffff;
+        text-shadow: 0 0 5px #00ffff;
+        margin-top: 0;
+    }
+
+    /* Power display styling */
+    .power-display {
+        font-size: 2em;
+        font-weight: 700;
+        color: #ffffff;
+        text-shadow: 0 0 8px #ffffff;
+        margin-bottom: 10px;
+    }
+
+    /* Progress bar styling */
+    .progress-bar {
+        background-color: #0d0d1a;
+        border: 1px solid #4a4a7f;
+        border-radius: 5px;
+        padding: 3px;
+        height: 25px;
+    }
+
+    .progress-bar-fill {
+        background: linear-gradient(90deg, #ff00ff, #00ffff);
+        height: 100%;
+        width: 0%; /* Starts at 0, JS will animate this */
+        border-radius: 3px;
+        box-shadow: 0 0 10px #00ffff;
+        transition: width 2.5s ease-out;
+    }
+    
+    /* Congratulatory message styling */
+    #glowup-message {
+        margin-top: 30px;
+        font-size: 1.2em;
+        color: #f0f0f0;
+        opacity: 0; /* Starts invisible */
+        transition: opacity 1.5s ease-in;
+        font-weight: 400;
+        text-shadow: 0 0 5px #ffffff88;
+    }
+
+    /* Keyframe animation for the title glow */
+    @keyframes pulse-glow {
+        0% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff; }
+        50% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
+        100% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff; }
+    }
+
+</style>
+</head>
+<body>
+
+<div class="stats-container">
+    <h2>ENIGMADROME // AGENT STATS</h2>
+    
+    <div class="players-wrapper">
+        <div class="player-card">
+            <h3>AUDLEY</h3>
+            <div class="power-display">
+                <span id="audley-power">0</span> Glimmering
+            </div>
+            <div class="progress-bar">
+                <div id="audley-progress" class="progress-bar-fill"></div>
+            </div>
+        </div>
+        
+        <div class="player-card">
+            <h3>LLEW</h3>
+            <div class="power-display">
+                <span id="llew-power">0</span> Glimmering
+            </div>
+            <div class="progress-bar">
+                <div id="llew-progress" class="progress-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="glowup-message"></div>
+
+</div>
+
+<script>
+    // This function runs when the page loads
+    window.onload = function() {
+        // --- CONFIGURATION ---
+        const startValue = 0;
+        const endValue = 1000;
+        const duration = 2500; // duration of the count-up in milliseconds
+        const message = "Glow Up! Your storytelling balanced the first anomaly. Well done!";
+        
+        // This is the "next level" goal. 1000/2000 = 50% full bar.
+        const maxPowerForProgressBar = 2000; 
+
+        // --- GET ELEMENTS ---
+        const audleyPowerEl = document.getElementById('audley-power');
+        const llewPowerEl = document.getElementById('llew-power');
+        const audleyProgressEl = document.getElementById('audley-progress');
+        const llewProgressEl = document.getElementById('llew-progress');
+        const messageEl = document.getElementById('glowup-message');
+
+        // --- Animate the number counting up ---
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.innerText = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // --- Start the animations ---
+        animateValue(audleyPowerEl, startValue, endValue, duration);
+        animateValue(llewPowerEl, startValue, endValue, duration);
+
+        // Animate the progress bars
+        // Use a slight delay to let the element render before transitioning
+        setTimeout(() => {
+            const progressPercentage = (endValue / maxPowerForProgressBar) * 100;
+            audleyProgressEl.style.width = progressPercentage + '%';
+            llewProgressEl.style.width = progressPercentage + '%';
+        }, 100);
+
+        // Display the message after the count-up is finished
+        setTimeout(() => {
+            messageEl.innerText = message;
+            messageEl.style.opacity = 1;
+        }, duration + 500); // 500ms after numbers finish
+    };
+</script>
+
+</body>
+</html>
